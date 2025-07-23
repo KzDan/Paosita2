@@ -17,8 +17,8 @@ class Star {
   reset() {
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * canvas.height;
-    this.size = Math.random() * 1.2 + 0.3;
-    this.speed = Math.random() * 0.15 + 0.03;
+    this.size = Math.random() * 1.5 + 0.5;
+    this.speed = Math.random() * 0.2 + 0.05;
     this.alpha = Math.random() * 0.5 + 0.3;
   }
   update() { 
@@ -37,17 +37,17 @@ class Star {
 }
 
 let stars = [];
-for (let i = 0; i < 300; i++) stars.push(new Star());
+for (let i = 0; i < 300; i++) stars.push(new Star()); // <<< más estrellitas aquí
 
 // ------- Corazón 3D -------
 let heartScale = 70; // tamaño del corazón
 
 function heart3DPoint() {
   let t = Math.random() * Math.PI * 2;
-  let s = (Math.random() - 0.5) * 0.6; // más variación en z para dar volumen
+  let s = (Math.random() - 0.5) * 0.8; // más variación en z para volumen
   let x = 16 * Math.pow(Math.sin(t), 3);
   let y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
-  let z = s * 300; // más profundidad
+  let z = s * 350; // mayor profundidad
   return { x: x * heartScale, y: y * heartScale, z: z };
 }
 
@@ -56,8 +56,8 @@ class Particle {
     this.target = heart3DPoint();
     this.x = (Math.random() - 0.5) * canvas.width * 2;
     this.y = (Math.random() - 0.5) * canvas.height * 2;
-    this.z = (Math.random() - 0.5) * 2000;
-    this.size = Math.random() * 2 + 1;
+    this.z = (Math.random() - 0.5) * 2500;
+    this.size = Math.random() * 2.2 + 1;
     this.baseColor = '#FF4040';
   }
   update(progress, rotation) {
@@ -76,24 +76,24 @@ class Particle {
     }
   }
   draw() {
-    let scale = 600 / (this.z + 1600); // más diferencia entre cerca y lejos
+    let scale = 700 / (this.z + 1800);
     let screenX = this.x * scale + canvas.width / 2;
     let screenY = this.y * scale + canvas.height / 2;
 
-    // Opacidad y brillo según la profundidad
-    let alpha = Math.max(0.3, Math.min(1, 1.5 - this.z / 800));
+    // Brillo según profundidad
+    let alpha = Math.max(0.3, Math.min(1, 1.8 - this.z / 900));
     ctx.save();
     ctx.globalAlpha = alpha;
     ctx.fillStyle = this.baseColor;
     ctx.beginPath();
-    ctx.arc(screenX, screenY, this.size * scale * 2.2, 0, Math.PI * 2);
+    ctx.arc(screenX, screenY, this.size * scale * 2.5, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
   }
 }
 
 let particles = [];
-for (let i = 0; i < 700; i++) particles.push(new Particle()); // un poco más de partículas
+for (let i = 0; i < 700; i++) particles.push(new Particle()); // muchas partículas para volumen
 
 let rotation = 0;
 let formationProgress = 0;
