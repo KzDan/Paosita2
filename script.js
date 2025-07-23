@@ -1,0 +1,106 @@
+const canvas = document.getElementById('heartCanvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+// ------- Fondo de estrellas -------
+class Star {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 1.5;
+    this.speed = Math.random() * 0.2 + 0.05;
+    this.alpha = Math.random() * 0.5 + 0.3;
+  }
+  update() { this.y += this.speed; if (this.y > canvas.height) this.reset(); }
+  draw() {
+    ctx.save();
+    ctx.globalAlpha = this.alpha;
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+let stars = [];
+for (let i = 0; i < 150; i++) stars.push(new Star());
+
+// ------- Corazón 3D -------
+function heart3DPoint() {
+  let t = Math.random() * Math.PI * 2;
+  let s = (Math.random() - 0.5) * 0.4;
+  let scale = 20; // tamaño del corazón
+  let x = 16 * Math.pow(Math.sin(t), 3);
+  let y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+  let z = s * 150;
+  return { x: x * scale, y: y * scale, z: z };
+}
+
+class Particle {
+  constructor() {
+    this.target = heart3DPoint();
+    this.x = (Math.random() - 0.5) * canvas.width * 2;
+    this.y = (Math.random() - 0.5) * canvas.height * 2;
+    this.z = (Math.random() - 0.5) * 2000;
+    this.size = Math.random() * 2 + 0.5;
+    this.color = '#FF4040';
+  }
+  update(progress, rotation) {
+    this.x += (this.target.x - this.x) * 0.05 * progress;
+    this.y += (this.target.y - this.y) * 0.05 * progress;
+    this.z += (this.target.z - this.z) * 0.05 * progress;
+
+    if (progress >= 1) {
+      let cosY = Math.cos(rotation);
+      let sinY = Math.sin(rotation);
+      let x = this.target.x * cosY - this.target.z * sinY;
+      let z = this.target.x * sinY + this.target.z * cosY;
+      this.x = x;
+      this.y = this.target.y;
+      this.z = z;
+    }
+  }
+  draw() {
+    let scale = 500 / (this.z + 1500);
+    let screenX = this.x * scale + canvas.width / 2;
+    let screenY = this.y * scale + canvas.height / 2;
+    ctx.save();
+    ctx.globalAlpha = Math.max(0.2, Math.min(1, scale * 1.5));
+    ctx.fillStyle = this.color;
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = this.color;
+    ctx.beginPath();
+    ctx.arc(screenX, screenY, this.size * scale * 2.2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+let particles = [];
+for (let i = 0; i < 1500; i++) particles.push(new Particle());
+
+let rotation = 0;
+let formationProgress = 0;
+
+function animate() {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  stars.forEach(s => { s.update(); s.draw(); });
+
+  if (formationProgress < 1) formationProgress += 0.01;
+  else rotation += 0.01;
+
+  particles.forEach(p => { p.update(formationProgress, rotation); p.draw(); });
+
+  requestAnimationFrame(animate);
+}
+animate();
