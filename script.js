@@ -1,21 +1,12 @@
 const canvas = document.getElementById('heartCanvas');
 const ctx = canvas.getContext('2d');
 
-function isMobile() {
-  return window.matchMedia("(max-width: 768px)").matches;
-}
-
-let heartScale = isMobile() ? 30 : 20;  // tamaño mayor en móviles
-
 function resizeCanvas() {
   const scale = window.devicePixelRatio || 1;
   canvas.width = window.innerWidth * scale * 0.7;
   canvas.height = window.innerHeight * scale * 0.7;
   canvas.style.width = window.innerWidth + 'px';
   canvas.style.height = window.innerHeight + 'px';
-
-  // Ajustar heartScale en caso de que el tamaño cambie (ej: rotación pantalla)
-  heartScale = isMobile() ? 30 : 20;
 }
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
@@ -28,7 +19,7 @@ class Star {
     this.y = Math.random() * canvas.height;
     this.size = Math.random() * 1 + 0.3;
     this.speed = Math.random() * 0.15 + 0.03;
-    this.alpha = Math.random() * 0.8 + 1;
+    this.alpha = Math.random() * 0.4 + 0.2;
   }
   update() { 
     this.y += this.speed; 
@@ -46,11 +37,10 @@ class Star {
 }
 
 let stars = [];
-for (let i = 0; i < 100; i++) stars.push(new Star());
+for (let i = 0; i < 50; i++) stars.push(new Star());
 
 // ------- Corazón 3D -------
 function heart3DPoint() {
-
   let t = Math.random() * Math.PI * 2;
   let s = (Math.random() - 0.5) * 0.4;
   let scale = 40;
@@ -66,7 +56,7 @@ class Particle {
     this.x = (Math.random() - 0.5) * canvas.width * 1.5;
     this.y = (Math.random() - 0.5) * canvas.height * 1.5;
     this.z = (Math.random() - 0.5) * 1000;
-    this.size = Math.random() * 1 + 1.7;
+    this.size = Math.random() * 1 + 0.5;
     this.color = '#FF4040';
   }
   update(progress, rotation) {
@@ -99,7 +89,7 @@ class Particle {
 }
 
 let particles = [];
-for (let i = 0; i < 777; i++) particles.push(new Particle());
+for (let i = 0; i < 200; i++) particles.push(new Particle());
 
 let rotation = 0;
 let formationProgress = 0;
