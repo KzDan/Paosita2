@@ -37,7 +37,7 @@ class Star {
 }
 
 let stars = [];
-for (let i = 0; i < 50; i++) stars.push(new Star());
+for (let i = 0; i < 300; i++) stars.push(new Star());
 
 // ------- Corazón 3D -------
 let heartScale = 70; // tamaño del corazón
