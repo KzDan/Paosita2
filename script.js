@@ -37,7 +37,7 @@ class Star {
 }
 
 let stars = [];
-for (let i = 0; i < 50; i++) stars.push(new Star());
+for (let i = 0; i < 100; i++) stars.push(new Star());
 
 // ------- Corazón 3D -------
 function heart3DPoint() {
@@ -56,7 +56,7 @@ class Particle {
     this.x = (Math.random() - 0.5) * canvas.width * 1.5;
     this.y = (Math.random() - 0.5) * canvas.height * 1.5;
     this.z = (Math.random() - 0.5) * 1000;
-    this.size = Math.random() * 1 + 0.5;
+    this.size = Math.random() * 1 + 1;
     this.color = '#FF4040';
   }
   update(progress, rotation) {
@@ -89,7 +89,7 @@ class Particle {
 }
 
 let particles = [];
-for (let i = 0; i < 200; i++) particles.push(new Particle());
+for (let i = 0; i < 600; i++) particles.push(new Particle());
 
 let rotation = 0;
 let formationProgress = 0;
