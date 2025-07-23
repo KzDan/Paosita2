@@ -3,8 +3,8 @@ const ctx = canvas.getContext('2d');
 
 function resizeCanvas() {
   const scale = window.devicePixelRatio || 1;
-  canvas.width = window.innerWidth * scale * 0.7;
-  canvas.height = window.innerHeight * scale * 0.7;
+  canvas.width = window.innerWidth * scale;
+  canvas.height = window.innerHeight * scale;
   canvas.style.width = window.innerWidth + 'px';
   canvas.style.height = window.innerHeight + 'px';
 }
@@ -17,9 +17,9 @@ class Star {
   reset() {
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * canvas.height;
-    this.size = Math.random() * 1 + 0.3;
+    this.size = Math.random() * 1.2 + 0.3;
     this.speed = Math.random() * 0.15 + 0.03;
-    this.alpha = Math.random() * 0.4 + 0.2;
+    this.alpha = Math.random() * 0.5 + 0.3;
   }
   update() { 
     this.y += this.speed; 
@@ -37,26 +37,27 @@ class Star {
 }
 
 let stars = [];
-for (let i = 0; i < 100; i++) stars.push(new Star());
+for (let i = 0; i < 50; i++) stars.push(new Star());
 
 // ------- Corazón 3D -------
+let heartScale = 60; // tamaño mayor del corazón
+
 function heart3DPoint() {
   let t = Math.random() * Math.PI * 2;
   let s = (Math.random() - 0.5) * 0.4;
-  let scale = 45;
   let x = 16 * Math.pow(Math.sin(t), 3);
   let y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
   let z = s * 150;
-  return { x: x * scale, y: y * scale, z: z };
+  return { x: x * heartScale, y: y * heartScale, z: z };
 }
 
 class Particle {
   constructor() {
     this.target = heart3DPoint();
-    this.x = (Math.random() - 0.5) * canvas.width * 1.5;
-    this.y = (Math.random() - 0.5) * canvas.height * 1.5;
-    this.z = (Math.random() - 0.5) * 1000;
-    this.size = Math.random() * 1 + 1.5;
+    this.x = (Math.random() - 0.5) * canvas.width * 2;
+    this.y = (Math.random() - 0.5) * canvas.height * 2;
+    this.z = (Math.random() - 0.5) * 2000;
+    this.size = Math.random() * 2 + 1; // partículas más grandes
     this.color = '#FF4040';
   }
   update(progress, rotation) {
@@ -75,21 +76,21 @@ class Particle {
     }
   }
   draw() {
-    let scale = 400 / (this.z + 1400);
+    let scale = 500 / (this.z + 1500);
     let screenX = this.x * scale + canvas.width / 2;
     let screenY = this.y * scale + canvas.height / 2;
     ctx.save();
-    ctx.globalAlpha = Math.max(0.3, Math.min(1, scale * 1.2));
+    ctx.globalAlpha = Math.max(0.4, Math.min(1, scale * 2));
     ctx.fillStyle = this.color;
     ctx.beginPath();
-    ctx.arc(screenX, screenY, this.size * scale * 1.5, 0, Math.PI * 2);
+    ctx.arc(screenX, screenY, this.size * scale * 2, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
   }
 }
 
 let particles = [];
-for (let i = 0; i < 777; i++) particles.push(new Particle());
+for (let i = 0; i < 400; i++) particles.push(new Particle()); // más partículas
 
 let rotation = 0;
 let formationProgress = 0;
@@ -97,7 +98,7 @@ let time = 0;
 const baseRotationSpeed = 0.002;
 
 function animate() {
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.25)'; // fondo más transparente
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   stars.forEach(s => { s.update(); s.draw(); });
