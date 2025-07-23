@@ -90,7 +90,7 @@ class Particle {
 }
 
 let particles = [];
-for (let i = 0; i < 500; i++) particles.push(new Particle()); // más partículas
+for (let i = 0; i < 800; i++) particles.push(new Particle()); // más partículas
 
 let rotation = 0;
 let formationProgress = 0;
