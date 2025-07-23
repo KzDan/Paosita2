@@ -46,14 +46,14 @@ class Star {
 }
 
 let stars = [];
-for (let i = 0; i < 100; i++) stars.push(new Star());
+for (let i = 0; i < 50; i++) stars.push(new Star());
 
 // ------- Corazón 3D -------
 function heart3DPoint() {
 
   let t = Math.random() * Math.PI * 2;
   let s = (Math.random() - 0.5) * 0.4;
-  let scale = 50;
+  let scale = 45;
   let x = 16 * Math.pow(Math.sin(t), 3);
   let y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
   let z = s * 150;
