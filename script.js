@@ -40,7 +40,7 @@ let stars = [];
 for (let i = 0; i < 50; i++) stars.push(new Star());
 
 // ------- Corazón 3D -------
-let heartScale = 60; // tamaño mayor del corazón
+let heartScale = 70; // tamaño mayor del corazón
 
 function heart3DPoint() {
   let t = Math.random() * Math.PI * 2;
@@ -57,7 +57,7 @@ class Particle {
     this.x = (Math.random() - 0.5) * canvas.width * 2;
     this.y = (Math.random() - 0.5) * canvas.height * 2;
     this.z = (Math.random() - 0.5) * 2000;
-    this.size = Math.random() * 2 + 1; // partículas más grandes
+    this.size = Math.random() * 2 + 1.5; // partículas más grandes
     this.color = '#FF4040';
   }
   update(progress, rotation) {
@@ -90,7 +90,7 @@ class Particle {
 }
 
 let particles = [];
-for (let i = 0; i < 400; i++) particles.push(new Particle()); // más partículas
+for (let i = 0; i < 500; i++) particles.push(new Particle()); // más partículas
 
 let rotation = 0;
 let formationProgress = 0;
