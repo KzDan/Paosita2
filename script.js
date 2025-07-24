@@ -63,7 +63,7 @@ const canvas = document.getElementById('heartCanvas');
       update(progress) {
         let p = Math.max(0, (progress - this.distanceNorm) / (1 - this.distanceNorm + 0.0001));
         p = Math.min(p, 1);
-        let speed = 0.001 + 0.001 * p;
+        let speed = 0.03 + 0.07 * p;
 
         this.x += (this.target.x - this.x) * speed;
         this.y += (this.target.y - this.y) * speed;
