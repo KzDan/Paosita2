@@ -38,7 +38,7 @@ const canvas = document.getElementById('heartCanvas');
     let stars = [];
     for (let i = 0; i < 500; i++) stars.push(new Star());
 
-    let heartScale = 70;
+    let heartScale = 65;
 
     function heart3DPoint() {
       let t = Math.random() * Math.PI * 2;
